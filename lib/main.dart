@@ -55,6 +55,18 @@ class _MyHomePageState extends State<MyHomePage> {
         onLongPress: () {
           numLongPress++;
         },
+        onVerticalDragUpdate: (DragUpdateDetails value) {
+          setState(() {
+            double delta = value.delta.dy;
+            posY += delta;
+          });
+        },
+        onHorizontalDragUpdate: (DragUpdateDetails value) {
+          setState(() {
+            double delta = value.delta.dx;
+            posX += delta;
+          });
+        },
         child: Stack(
           children: <Widget>[
             Positioned(
