@@ -27,21 +27,23 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
+
+  Animation<double> animation;
+  AnimationController controller;
+
   int numTaps = 0;
   int numDoubleTaps = 0;
   int numLongPress = 0;
   double posX = 0.0;
   double posY = 0.0;
   double boxSize = 0.0;
-  final double fullBozSize = 150.0;
-  Animation<double> animation;
-  AnimationController controller;
+  final double fullBoxSize = 150.0;
 
   @override
   void initState() {
     super.initState();
     controller = AnimationController(
-      duration: Duration(milliseconds: 5),
+      duration: Duration(milliseconds: 5000),
       vsync: this,
     );
     animation = CurvedAnimation(
@@ -50,7 +52,7 @@ class _MyHomePageState extends State<MyHomePage>
     );
     animation.addListener(() {
       setState(() {
-        boxSize = fullBozSize * animation.value;
+        boxSize = fullBoxSize * animation.value;
       });
       center(context);
     });
@@ -62,7 +64,6 @@ class _MyHomePageState extends State<MyHomePage>
     if (posX == 0.0) {
       center(context);
     }
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -74,10 +75,14 @@ class _MyHomePageState extends State<MyHomePage>
           });
         },
         onDoubleTap: () {
-          numDoubleTaps++;
+          setState(() {
+            numDoubleTaps++;
+          });
         },
         onLongPress: () {
-          numLongPress++;
+          setState(() {
+            numLongPress++;
+          });
         },
         onVerticalDragUpdate: (DragUpdateDetails value) {
           setState(() {
@@ -103,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage>
                   color: Colors.red,
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -112,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage>
         child: Padding(
           padding: EdgeInsets.all(15.0),
           child: Text(
-            "Taps: $numTaps - Double Tabs:  $numDoubleTaps, Long Presses: $numLongPress",
+            "Taps: $numTaps - Double Taps: $numDoubleTaps - Long Presses: $numLongPress",
             style: Theme.of(context).textTheme.title,
           ),
         ),
@@ -129,7 +134,6 @@ class _MyHomePageState extends State<MyHomePage>
   void center(BuildContext context) {
     posX = (MediaQuery.of(context).size.width / 2) - boxSize / 2;
     posY = (MediaQuery.of(context).size.height / 2) - boxSize / 2 - 30.0;
-
     setState(() {
       posX = posX;
       posY = posY;
